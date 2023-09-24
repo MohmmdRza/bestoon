@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    {% if message %}
+        <div class="alert alert-{% if ok %}success{% else %}danger{% endif %}" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m6 offset-m3">
+                <div class="card hoverable">
+                    <div class="card-content grey-text text-lighten-1">
+                        <div class="row card-title">
+                            <div class="col s6 left-align login-link"><span>خرید</span></div>
+                            <div class="col s6 right-align signup-link active"><span>فروش</span></div>
+                        </div>
+                        <div class="row">
+                            <form action="{% url 'saffron:add_trade' %}" class="col s12 text-form" autocomplete="nope"
+                                  method="POST">
+                                {% csrf_token %}
+                                <input id="trade_type" type="hidden" class="trade_type" name="trade_type" value="sell">
+
+                                <div class="row">
+                                    <div class="input-field confirm-description-field col s12">
+                                        <select name="saffron_category" id="saffron_category"
+                                                style="display: block !important;background-color:black !important;">
+                                            {% for saffron_category in saffron_categories %}
+                                                <option value="{{ saffron_category }}">{{ saffron_category }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field confirm-description-field col s12">
+                                        <input id="price" type="number" class="validate" name="price" oninput="formatNumber('price')">
+                                        <label for="price">قیمت هر گرم</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field confirm-description-field col s12">
+                                        <input id="weight" type="number" step="0.1" class="validate" name="weight" oninput="formatNumber('weight')">
+                                        <label for="weight">وزن به گرم</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field confirm-description-field col s12">
+                                        <input id="all_amount" type="number" class="validate" name="all_amount" oninput="formatNumber('all_amount')">
+                                        <label for="all_amount">مبلغ نهایی</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field text-field col s12">
+                                        <input id="datetime" type="text" class="validate" name="datetime"
+                                               value="{% if data.today %}{{ data.today }}{% else %}{{ data.datetime }}{% endif %}">
+                                        <span id="datetime-strength"></span>
+                                        <label for="datetime">تاریخ</label>
+                                        <p class="help-text"></p>
+                                    </div>
+                                </div>
+                                <div class="row description-row">
+                                    <div class="input-field confirm-description-field col s12">
+                                        <input id="description" type="text" class="validate" name="description">
+                                        <label for="description">توضیحات</label>
+                                    </div>
+                                </div>
+                                <div class="card-action center-align">
+                                    <div class="row">
+                                        <input type="submit"
+                                               class="btn-sumbit btn amber darken-4 waves-effect white-text"
+                                               value="ثبت">
+                                    </div>
+                                    <div class="row">
+                                        <a type="submit" class="btn amber darken-4 waves-effect white-text"
+                                           href="{% url 'saffron:index' %}">منوی اصلی</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js'></script>
+    <script src="{% static "js/index.js" %}"></script>
+{% endblock %}

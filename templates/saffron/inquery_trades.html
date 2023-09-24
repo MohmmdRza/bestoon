@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load jdatetime %}
+{% load humanize %}
+
+{% block content %}
+{% if message %}
+    <div class="alert alert-{% if ok %}success{% else %}danger{% endif %}" role="alert">
+        {{ message }}
+    </div>
+{% endif %}
+<style>
+    .input-field label {
+        font-size: 1.3rem !important;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col s12 m6 offset-m3">
+            <div class="card hoverable">
+                <div class="card-content grey-text text-lighten-1">
+                    <div class="row">
+                        <form class="col s12 text-form" autocomplete="nope">
+                            <h4 style="text-align: center;">{% if trade_type == 'buys' %}خرید{% else %}فروش{% endif %} ها</h4>
+                            {% for trade in trades %}
+{#    payments = models.ManyToManyField('Payment')#}
+{#    datetime = models.DateTimeField()#}
+                                <div class="row">
+                                    <div class="input-field confirm-description-field col s12">
+                                        <label for="amount">نوع زعفران : {{ trade.saffron_type }}</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field confirm-description-field col s12">
+                                        <label for="amount">وزن : {{ trade.weight_gram }} گرم</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field confirm-description-field col s12">
+                                        <label for="amount">قیمت هر گرم : {{ trade.gram_price|intcomma }} تومان</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field confirm-description-field col s12">
+                                        <label for="amount">قیمت تمام شده : {{ trade.all_amount_tmn|intcomma }} تومان</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field confirm-description-field col s12">
+                                        <label for="amount">تاریخ : {{ trade.datetime|jdate}}</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field confirm-description-field col s12">
+                                        <label for="amount">توضیحات : {% if trade.description == '' %}خالی{% else %}{{ trade.description }}{% endif %}</label>
+                                    </div>
+                                </div>
+                                <div class="row" style="text-align: center">
+                                    <a href="{% url 'saffron:inquery_trade_payments' trade.pk %}">
+                                        <div class="input-field confirm-description-field col s12">
+                                            <label for="amount">{% if trade_type == 'buys' %}پرداختی ها{% else %}دریافتی ها{% endif %}</label>
+                                        </div>
+                                    </a>
+                                </div>
+                                <br>
+                                {% if not forloop.last %}
+                                    <hr/>
+                                {% endif %}
+                            {% endfor %}
+                            <div class="card-action center-align">
+                                <div class="row">
+                                    <a type="submit" class="btn-login btn amber darken-4 waves-effect white-text"
+                                       href="{% url 'saffron:index' %}">منوی اصلی</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js'></script>
+<script src="{% static "js/index.js" %}"></script>
+{% endblock %}

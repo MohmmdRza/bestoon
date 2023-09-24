@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        /* Center the table container */
+        .table-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Center vertically within the viewport */
+        }
+
+        table {
+            border-collapse: collapse;
+            max-width: 75%;
+        }
+
+        td {
+            border: 1px solid white; /* Add border styling as needed */
+            padding: 8px; /* Add padding as needed */
+            text-align: center;
+        }
+
+        tr {
+            background-color: rgb(255 255 255 / 29%);
+            color: white;
+        }
+    </style>
+    <script>
+        function redirectToURL(url) {
+            window.location.href = url;
+        }
+    </script>
+    <div class="table-container">
+        <table>
+            <tr>
+                <td colspan="1" >لطفا بخش مد نظر را انتخاب کنید.</td>
+            </tr>
+            <tr>
+                <td colspan="1" onclick="redirectToURL('{% url 'saffron:inquery_balance' %}')">مشاهده موجودی</td>
+            </tr>
+            <tr>
+                <td colspan="1" onclick="redirectToURL('{% url 'saffron:inquery_trades' 'buys' %}')">استعلام خرید ها</td>
+            </tr>
+            <tr>
+                <td colspan="1" onclick="redirectToURL('{% url 'saffron:inquery_trades' 'sells' %}')">استعلام فروش ها</td>
+            </tr>
+            <tr>
+                <td colspan="1" onclick="redirectToURL('{% url 'saffron:add_trade' %}')">افزودن خرید/فروش</td>
+            </tr>
+            <tr>
+                <td colspan="1" onclick="redirectToURL('{% url 'saffron:add_category' %}')">افزودن نوع زعفران</td>
+            </tr>
+            <tr>
+                <td colspan="1" onclick="redirectToURL('{% url 'saffron:add_cash_transfer' 'payment' %}')">افزودن پرداخت</td>
+            </tr>
+            <tr>
+                <td colspan="1" onclick="redirectToURL('{% url 'saffron:add_cash_transfer' 'receive' %}')">افزودن دریافت</td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

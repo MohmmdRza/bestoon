@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="alert alert-{% if ok or not message %}success{% else %}danger{% endif %}" role="alert">
+{% if message %}
+{{ message }}
+{% else %}
+    لطفا اطلاعات را وارد کنید :
+{% endif %}
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col s12 m6 offset-m3">
+            <div class="card hoverable">
+                <div class="card-content grey-text text-lighten-1">
+                    <div class="row">
+                        <form action="{% url 'saffron:add_category' %}" class="col s12 text-form" autocomplete="nope" method="POST">
+                        {% csrf_token %}
+                            <input type="hidden" value="mmdrza" name="mmdrza">
+                            <div class="row">
+                                <div class="input-field confirm-description-field col s12">
+                                    <input id="saffron_type" type="text" class="validate" name="saffron_type">
+                                    <label for="saffron_type">نوع زعفران</label>
+                                </div>
+                            </div>
+                            <div class="card-action center-align">
+                                <div class="row">
+                                    <input type="submit" class="btn-login btn amber darken-4 waves-effect white-text"
+                                           value="ثبت">
+                                </div>
+                                <div class="row">
+                                    <a type="submit" class="btn-login btn amber darken-4 waves-effect white-text"
+                                            href="{% url 'saffron:index' %}">منوی اصلی</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js'></script>
+<script src="{% static "js/index.js" %}"></script>
+{% endblock %}
