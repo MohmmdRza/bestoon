@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'website',
     'saffron',
+    'accounts',
 
     'bootstrap5',
 ]

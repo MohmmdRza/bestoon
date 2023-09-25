@@ -2,15 +2,18 @@ import json
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.db.models import Sum
+from django.contrib.auth.decorators import login_required
 from saffron.models import *
 import datetime as dt
 import jdatetime as jdt
 
 
+@login_required
 def index(request):
     return render(request, 'saffron/index.html')
 
 
+@login_required
 def add_cash_transfer(request, cash_transfer_type):
     context = {}
     saffron_trades = Saffron.objects.filter(is_buy=cash_transfer_type == 'payment')
@@ -65,6 +68,7 @@ def add_cash_transfer(request, cash_transfer_type):
         return render(request, 'saffron/add_cash_transfer.html', context)
 
 
+@login_required
 def add_category(request):
     if request.method == 'POST':
         category = request.POST['saffron_type']
@@ -87,6 +91,7 @@ def add_category(request):
         return render(request, 'saffron/add_category_form.html')
 
 
+@login_required
 def add_trade(request):
     if request.method == 'POST':
         trade_type = request.POST.get('trade_type')
@@ -148,6 +153,7 @@ def add_trade(request):
         })
 
 
+@login_required
 def inquery_balance(request):
     saffron_categories = SaffronCategory.objects.all()
     trades = Saffron.objects.all()
@@ -167,6 +173,7 @@ def inquery_balance(request):
     return render(request, 'saffron/inquery_balance.html', context)
 
 
+@login_required
 def inquery_trades(request, trade_type):
     trades = Saffron.objects.filter(is_buy=trade_type == 'buys')
     result = []
@@ -176,6 +183,7 @@ def inquery_trades(request, trade_type):
     })
 
 
+@login_required
 def inquery_trade_payments(request, trade_id):
     print(trade_id)
     trade = Saffron.objects.filter(pk=trade_id)[0]
